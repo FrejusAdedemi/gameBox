@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameBox - Plateforme de jeux en ligne</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --accent-color: #e74c3c;
+            --shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Masquer les barres de navigation de CodePen */
+        .game-iframe-container iframe {
+            margin-top: -50px; /* Ajuster si nécessaire pour masquer la barre de navigation */
+            height: calc(100% + 50px); /* Compenser le margin-top */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            transition: all 0.3s ease;
+        }
+
+        .dark-theme {
+            --light-color: #1a1a2e;
+            --dark-color: #e6e6e6;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            margin: 0.5rem 0 0;
+            opacity: 0.8;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .intro {
+            max-width: 800px;
+            margin: 2rem auto;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .intro h2 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .games-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .game-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dark-theme .game-card {
+            background-color: #2d3748;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .game-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dark-theme .game-header {
+            border-bottom: 1px solid #444;
+        }
+
+        .game-title {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .game-description {
+            margin: 0.5rem 0 0;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .dark-theme .game-description {
+            color: #bbb;
+        }
+
+        .game-iframe-container {
+            position: relative;
+            padding-bottom: 75%; /* Ratio 4:3 */
+            height: 0;
+            overflow: hidden;
+            background-color: #f5f5f5;
+            cursor: pointer; /* Indique que c'est cliquable */
+            transition: all 0.3s ease; /* Animation fluide */
+        }
+
+        /* Remplacement du texte par icône de plein écran */
+        .game-iframe-container:hover::after {
+            content: "🎮";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+            opacity: 0.8;
+            z-index: 10;
+        }
+
+        /* Effet visuel au survol pour indiquer que c'est cliquable */
+        .game-iframe-container:hover {
+            box-shadow: inset 0 0 0 5px var(--primary-color);
+        }
+
+        .dark-theme .game-iframe-container {
+            background-color: #1a202c;
+        }
+
+        .game-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none; /* Empêcher les clics sur l'iframe pour que le conteneur reçoive le clic */
+        }
+
+        .game-controls {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+
+        .dark-theme .game-controls {
+            border-top: 1px solid #444;
+        }
+
+        .game-controls h4 {
+            margin: 0 0 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .game-controls p {
+            margin: 0.2rem 0;
+        }
+
+        .team-section {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .team-section h2 {
+            margin-top: 0;
+            font-size: 2rem;
+        }
+
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .team-member {
+            flex: 1;
+            min-width: 200px;
+            max-width: 250px;
+        }
+
+        .team-member img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+        }
+
+        .team-member h3 {
+            margin: 1rem 0 0.3rem;
+        }
+
+        .team-member p {
+            margin: 0;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 2rem;
+        }
+
+        .copyright {
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        /* Modal pour le jeu en plein écran */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 90%;
+            max-width: 1200px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .fullscreen-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Badge nouveau jeu */
+        .new-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            .team-member {
+                min-width: 140px;
+            }
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: var(--dark-color);
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin: 0 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Bannière promotionnelle */
+        .promo-banner {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Compteur de jeux */
+        .games-counter {
+            text-align: center;
+            margin-top: -1rem;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+
+        /* Animation pour attirer l'attention */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .featured-game {
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu de navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="#" style="color: white; text-decoration: none; font-weight: bold; font-size: 1.2rem;">GameHub</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#games">Jeux</a></li>
+            <li><a href="#team">Notre Équipe</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1 class="logo">GameBox</h1>
+        <p class="tagline">Les mini-jeux qui sauvent les devs du burn-out !</p>
+        <button class="theme-toggle" id="themeToggle">🌓</button>
+    </header>
+
+    <section class="intro">
+        <h2>Découvrez nos jeux</h2>
+        <p>Bienvenue sur GameBox, votre plateforme de jeux en ligne. Profitez de notre sélection de jeux directement jouables dans votre navigateur, sans installation ni inscription.</p>
+    </section>
+
+    <div class="games-container" id="games">
+        <div class="games-grid">
+            <!-- JEU 1: Rubik's Cube -->
+            <div class="game-card featured-game">
+                <div class="game-header">
+                    <h3 class="game-title">Rubik's Cube</h3>
+                    <p class="game-description">Résolvez le célèbre casse-tête en 3D. Faites tourner, alignez les couleurs, et mettez votre logique à l'épreuve !</p>
+                    <div class="new-badge">Populaire</div>
+                </div>
+                <div class="game-iframe-container" data-game="rubik" data-url="https://codepen.io/owen10-/embed/xbbMgpN?default-tab=result">
+                    <iframe class="game-iframe" src="https://codepen.io/owen10-/embed/xbbMgpN?default-tab=result" title="Rubik's Cube" loading="lazy"></iframe>
+                </div>
+                <div class="game-controls">
+                    <h4>Contrôles</h4>
+                    <p>Cliquez et faites glisser pour faire tourner le cube. Utilisez les boutons pour manipuler les faces.</p>
+                </div>
+            </div>
+
+            <!-- JEU 2: Memory Game -->
+            <div class="game-card">
+                <div class="game-header">
+                    <h3 class="game-title">Memory Game</h3>
+                    <p class="game-description">Testez votre mémoire en retournant les cartes pour trouver les paires correspondantes.</p>
+                </div>
+                <div class="game-iframe-container" data-game="memory" data-url="https://codepen.io/natewiley/full/HBrbL">
+                    <iframe class="game-iframe" src="https://codepen.io/natewiley/full/HBrbL" title="Memory Game" scrolling="no"></iframe>
+                </div>
+                <div class="game-controls">
+                    <h4>Contrôles</h4>
+                    <p>Cliquez sur les cartes pour les retourner</p>
+                </div>
+            </div>
+
+            <!-- JEU 3: Pendu -->
+            <div class="game-card">
+                <div class="game-header">
+                    <h3 class="game-title">Jeu du Pendu</h3>
+                    <p class="game-description">Devinez le mot avant que le bonhomme ne soit pendu. Classique et toujours aussi stressant !</p>
+                </div>
+                <div class="game-iframe-container" data-game="pendu" data-url="https://codepen.io/owen10-/embed/LEEqyWd?default-tab=result">
+                    <iframe class="game-iframe" src="https://codepen.io/owen10-/embed/LEEqyWd?default-tab=result" title="Jeu du Pendu" loading="lazy"></iframe>
+                </div>
+                <div class="game-controls">
+                    <h4>Contrôles</h4>
+                    <p>Cliquez sur les lettres ou tapez-les au clavier pour deviner le mot.</p>
+                </div>
+            </div>
+
+            <!-- JEU 4: Unruly Tower -->
+            <div class="game-card">
+                <div class="game-header">
+                    <h3 class="game-title">Unruly Tower</h3>
+                    <p class="game-description">Empilez les blocs pour construire la tour la plus haute possible... avant qu'elle ne s'écroule !</p>
+                </div>
+                <div class="game-iframe-container" data-game="tower" data-url="https://codepen.io/johan-tirholm/embed/jZorRd?default-tab=result">
+                    <iframe class="game-iframe" src="https://codepen.io/johan-tirholm/embed/jZorRd?default-tab=result" title="Unruly Tower" loading="lazy"></iframe>
+                </div>
+                <div class="game-controls">
+                    <h4>Contrôles</h4>
+                    <p>Cliquez pour lâcher les blocs au bon moment. Timing et précision sont la clé.</p>
+                </div>
+            </div>
+
+            <!-- JEU 5: Stick Hero -->
+            <div class="game-card">
+                <div class="game-header">
+                    <h3 class="game-title">Stick Hero</h3>
+                    <p class="game-description">Aidez le héros à traverser les plateformes en construisant des ponts de la bonne longueur. Trop court ou trop long… et c'est la chute !</p>
+                </div>
+                <div class="game-iframe-container" data-game="stickhero" data-url="https://codepen.io/HunorMarton/embed/xxOMQKg?default-tab=result">
+                    <iframe class="game-iframe" src="https://codepen.io/HunorMarton/embed/xxOMQKg?default-tab=result" title="Stick Hero" loading="lazy"></iframe>
+                </div>
+                <div class="game-controls">
+                    <h4>Contrôles</h4>
+                    <p>Maintenez le clic pour allonger le bâton, relâchez pour le faire tomber. Le timing est essentiel !</p>
+                </div>
+            </div>
+
+            <!-- JEU 6: Zombie -->
+            <div class="game-card">
+                <div class="game-header">
+                    <h3 class="game-title">Zombie</h3>
+                    <p class="game-description">Éliminez les vagues de zombies dans ce jeu d'action rapide. Reflexes et précision seront vos meilleurs alliés !</p>
+                </div>
+                <div class="game-iframe-container" data-game="zombie" data-url="https://codepen.io/eliortabeka/embed/RoNgzR?default-tab=result">
+                    <iframe class="game-iframe" src="https://codepen.io/eliortabeka/embed/RoNgzR?default-tab=result" title="Zombie Mayhem" loading="lazy"></iframe>
+                </div>
+                <div class="game-controls">
+                    <h4>Contrôles</h4>
+                    <p>Souris : viser et tirer | WASD ou flèches : se déplacer</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Section Équipe -->
+    <section class="team-section" id="team">
+        <h2>Notre équipe</h2>
+        <p>Réalisé avec passion par les étudiants de B2 Informatique</p>
+
+        <div class="team-members">
+            <div class="team-member">
+                <h3>Mathieu SOSSOU</h3>
+                <p>Développeur Full-stack</p>
+            </div>
+            <div class="team-member">
+                <h3>Fréjus ADEDEMI</h3>
+                <p>Développeur Full-stack</p>
+            </div>
+            <div class="team-member">
+                <h3>Gaetan NANA</h3>
+                <p>UI/UX Designer</p>
+            </div>
+            <div class="team-member">
+                <h3>BEDIANG PATRICK</h3>
+                <p>UI/UX Designer</p>
+            </div>
+            <div class="team-member">
+                <h3>Cabrel DIFFO</h3>
+                <p>Chef de projet</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Contact -->
+    <section id="contact" style="padding: 3rem 1rem; text-align: center; background-color: #f8f9fa;">
+        <h2 style="color: var(--primary-color);">Contactez-nous</h2>
+        <p>Vous avez des questions ou des suggestions ? Contactez notre équipe !</p>
+        <div style="max-width: 600px; margin: 2rem auto; padding: 1.5rem; background: white; border-radius: 10px; box-shadow: var(--shadow);">
+            <form>
+                <div style="margin-bottom: 1rem; text-align: left;">
+                    <label for="name" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Nom</label>
+                    <input type="text" id="name" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 1rem; text-align: left;">
+                    <label for="email" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Email</label>
+                    <input type="email" id="email" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 1rem; text-align: left;">
+                    <label for="message" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Message</label>
+                    <textarea id="message" rows="4" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+                </div>
+                <button type="submit" style="background-color: var(--primary-color); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 4px; cursor: pointer; font-weight: bold;">Envoyer</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p class="copyright">&copy; 2025 GameBox - Réalisé par l'équipe B2 Informatique</p>
+    </footer>
+
+    <!-- Modal pour le plein écran -->
+    <div class="modal" id="gameModal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        <div class="modal-content">
+            <iframe id="fullscreenFrame" class="fullscreen-iframe" src="" frameborder="0" scrolling="no"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Toggle du thème clair/sombre
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-theme');
+
+            // Sauvegarder la préférence
+            const isDarkMode = document.body.classList.contains('dark-theme');
+            localStorage.setItem('darkMode', isDarkMode);
+        });
+
+        // Appliquer le thème sauvegardé
+        document.addEventListener('DOMContentLoaded', function() {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                document.body.classList.add('dark-theme');
+            }
+
+            // Initialiser le suivi des jeux joués
+            if (!localStorage.getItem('gamesPlayed')) {
+                localStorage.setItem('gamesPlayed', JSON.stringify({}));
+            }
+        });
+
+        // Gestion du mode plein écran par clic sur le conteneur du jeu
+        const modal = document.getElementById('gameModal');
+        const fullscreenFrame = document.getElementById('fullscreenFrame');
+        const closeModal = document.getElementById('closeModal');
+        const gameContainers = document.querySelectorAll('.game-iframe-container');
+
+        gameContainers.forEach(container => {
+            container.addEventListener('click', function() {
+                const gameUrl = this.getAttribute('data-url');
+                const gameId = this.getAttribute('data-game');
+
+                fullscreenFrame.src = gameUrl;
+                modal.style.display = 'block';
+
+                // Empêcher le défilement du corps
+                document.body.style.overflow = 'hidden';
+
+                // Enregistrer que ce jeu a été joué
+                let gamesPlayed = JSON.parse(localStorage.getItem('gamesPlayed'));
+                gamesPlayed[gameId] = (gamesPlayed[gameId] || 0) + 1;
+                localStorage.setItem('gamesPlayed', JSON.stringify(gamesPlayed));
+            });
+        });
+
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+
+            // Réactiver le défilement
+            document.body.style.overflow = 'auto';
+
+            // Optionnel: Arrêter le contenu de l'iframe
+            fullscreenFrame.src = '';
+        });
+
+        // Fermer également avec Escape
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                closeModal.click();
+            }
+        });
+
+        // Navigation douce pour les ancres
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Simulation du formulaire de contact
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Merci pour votre message !');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
