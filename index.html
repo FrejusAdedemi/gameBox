@@ -336,6 +336,15 @@
             .team-member {
                 min-width: 140px;
             }
+
+            .pricing-plans {
+                flex-direction: column;
+            }
+
+            .pricing-plan {
+                margin-bottom: 2rem;
+                width: 100%;
+            }
         }
 
         /* Navigation */
@@ -398,16 +407,293 @@
             position: relative;
             animation: pulse 2s infinite;
         }
+
+        /* Styles pour la section d'abonnement */
+        .subscription-section {
+            padding: 4rem 1rem;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .dark-theme .subscription-section {
+            background-color: #111827;
+        }
+
+        .subscription-section h2 {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .subscription-tagline {
+            max-width: 700px;
+            margin: 0 auto 3rem auto;
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .dark-theme .subscription-tagline {
+            color: #bbb;
+        }
+
+        .pricing-plans {
+            display: flex;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 2rem;
+        }
+
+        .pricing-plan {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            width: 300px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            border-top: 5px solid transparent;
+        }
+
+        .dark-theme .pricing-plan {
+            background-color: #2d3748;
+            color: #e6e6e6;
+        }
+
+        .pricing-plan:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .pricing-plan.featured {
+            border-top-color: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        .pricing-plan.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .pricing-plan .popular-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .plan-name {
+            color: var(--dark-color);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dark-theme .plan-name {
+            color: white;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2rem 0;
+            text-align: left;
+        }
+
+        .plan-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .dark-theme .plan-features li {
+            border-bottom: 1px solid #4a5568;
+        }
+
+        .plan-features li::before {
+            content: "✓";
+            color: var(--secondary-color);
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+
+        .plan-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .featured .plan-button {
+            background-color: var(--secondary-color);
+        }
+
+        .plan-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .subscription-faq {
+            max-width: 700px;
+            margin: 4rem auto 0;
+            text-align: left;
+        }
+
+        .subscription-faq h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .dark-theme .faq-item {
+            border-bottom: 1px solid #4a5568;
+        }
+
+        .faq-question {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .dark-theme .faq-question {
+            color: #e6e6e6;
+        }
+
+        .faq-answer {
+            color: #666;
+        }
+
+        .dark-theme .faq-answer {
+            color: #bbb;
+        }
+
+        /* Modal pour l'abonnement */
+        .subscription-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .subscription-modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .dark-theme .subscription-modal-content {
+            background-color: #2d3748;
+            color: #e6e6e6;
+        }
+
+        .close-subscription-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .dark-theme .close-subscription-modal {
+            color: #bbb;
+        }
+
+        .subscription-form input,
+        .subscription-form select {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .dark-theme .subscription-form input,
+        .dark-theme .subscription-form select {
+            background-color: #1a202c;
+            border: 1px solid #4a5568;
+            color: #e6e6e6;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row > div {
+            flex: 1;
+        }
+
+        .submit-subscription {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            width: 100%;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-subscription:hover {
+            background-color: #27ae60;
+        }
     </style>
 </head>
 <body>
+    <!-- Bannière promotionnelle -->
+    <div class="promo-banner">
+        🎮 Offre spéciale de lancement : -20% sur tous les abonnements premium ! 🎮
+    </div>
+
     <!-- Menu de navigation -->
     <nav class="navbar">
         <div class="nav-brand">
-            <a href="#" style="color: white; text-decoration: none; font-weight: bold; font-size: 1.2rem;">GameHub</a>
+            <a href="#" style="color: white; text-decoration: none; font-weight: bold; font-size: 1.2rem;">GameBox</a>
         </div>
         <ul class="nav-links">
             <li><a href="#games">Jeux</a></li>
+            <li><a href="#subscription">Abonnements</a></li>
             <li><a href="#team">Notre Équipe</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
@@ -520,6 +806,78 @@
         </div>
     </div>
 
+    <!-- Section Abonnement -->
+    <section class="subscription-section" id="subscription">
+        <h2>Nos formules d'abonnement</h2>
+        <p class="subscription-tagline">Débloquez tout le potentiel de GameBox avec l'un de nos forfaits premium et accédez à des jeux exclusifs, des tournois et bien plus encore !</p>
+
+        <div class="pricing-plans">
+            <div class="pricing-plan">
+                <h3 class="plan-name">Free</h3>
+                <div class="plan-price">0€ <span>/mois</span></div>
+                <ul class="plan-features">
+                    <li>Accès à 6 jeux</li>
+                    <li>Mode invité</li>
+                    <li>Publicités incluses</li>
+                    <li>Sauvegarde limitée</li>
+                </ul>
+                <a href="#" class="plan-button">Continuer gratuitement</a>
+            </div>
+
+            <div class="pricing-plan featured">
+                <div class="popular-badge">Le plus populaire</div>
+                <h3 class="plan-name">Premium</h3>
+                <div class="plan-price">5,99€ <span>/mois</span></div>
+                <ul class="plan-features">
+                    <li>Accès à +30 jeux</li>
+                    <li>Sans publicités</li>
+                    <li>Sauvegarde illimitée</li>
+                    <li>Skins exclusifs</li>
+                    <li>Tournois mensuels</li>
+                </ul>
+                <a href="#" class="plan-button subscribe-button" data-plan="premium">S'abonner maintenant</a>
+            </div>
+
+            <div class="pricing-plan">
+                <h3 class="plan-name">Pro Gamer</h3>
+                <div class="plan-price">11,99€ <span>/mois</span></div>
+                <ul class="plan-features">
+                    <li>Tous les jeux (+50)</li>
+                    <li>Sans publicités</li>
+                    <li>Skins exclusifs Pro</li>
+                    <li>Accès aux jeux beta</li>
+                    <li>Tournois avec prix</li>
+                    <li>Support prioritaire</li>
+                </ul>
+                <a href="#" class="plan-button subscribe-button" data-plan="pro">Devenir Pro Gamer</a>
+            </div>
+        </div>
+
+        <div class="subscription-faq">
+            <h3>Questions fréquentes</h3>
+
+            <div class="faq-item">
+                <div class="faq-question">Comment fonctionnent les abonnements ?</div>
+                <div class="faq-answer">Les abonnements sont facturés mensuellement et peuvent être annulés à tout moment. Une fois votre abonnement activé, vous aurez un accès instantané à toutes les fonctionnalités incluses dans votre forfait.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Puis-je changer de forfait ?</div>
+                <div class="faq-answer">Oui, vous pouvez passer à un forfait supérieur ou inférieur à tout moment. Le changement prendra effet lors de votre prochaine période de facturation.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Y a-t-il un engagement de durée ?</div>
+                <div class="faq-answer">Non, tous nos abonnements sont sans engagement. Vous êtes libre d'annuler à tout moment et votre abonnement restera actif jusqu'à la fin de la période payée.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Comment puis-je annuler mon abonnement ?</div>
+                <div class="faq-answer">Vous pouvez annuler votre abonnement à tout moment depuis votre espace personnel. L'annulation prendra effet à la fin de votre période de facturation en cours.</div>
+            </div>
+        </div>
+    </section>
+
     <!-- Section Équipe -->
     <section class="team-section" id="team">
         <h2>Notre équipe</h2>
@@ -550,7 +908,7 @@
     </section>
 
     <!-- Section Contact -->
-    <section id="contact" style="padding: 3rem 1rem; text-align: center; background-color: #f8f9fa;">
+    <section id="contact" style="padding: 3rem 1rem; text-align: center; background-color: #f8f9f9;">
         <h2 style="color: var(--primary-color);">Contactez-nous</h2>
         <p>Vous avez des questions ou des suggestions ? Contactez notre équipe !</p>
         <div style="max-width: 600px; margin: 2rem auto; padding: 1.5rem; background: white; border-radius: 10px; box-shadow: var(--shadow);">
@@ -581,6 +939,71 @@
         <span class="close-modal" id="closeModal">&times;</span>
         <div class="modal-content">
             <iframe id="fullscreenFrame" class="fullscreen-iframe" src="" frameborder="0" scrolling="no"></iframe>
+        </div>
+    </div>
+
+    <!-- Modal pour l'abonnement -->
+    <div class="subscription-modal" id="subscriptionModal">
+        <div class="subscription-modal-content">
+            <span class="close-subscription-modal" id="closeSubscriptionModal">&times;</span>
+            <h3 style="text-align: center; color: var(--primary-color); margin-top: 0;">S'abonner à GameBox</h3>
+            <p style="text-align: center; margin-bottom: 2rem;">Remplissez ce formulaire pour débloquer votre accès premium</p>
+
+            <form class="subscription-form" id="subscriptionForm">
+                <div style="margin-bottom: 1rem;">
+                    <label for="fullName">Nom complet</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label for="subscriptionEmail">Email</label>
+                    <input type="email" id="subscriptionEmail" name="email" required>
+                </div>
+
+                <div class="form-row">
+                    <div>
+                        <label for="plan">Abonnement</label>
+                        <select id="plan" name="plan">
+                            <option value="premium">Premium (5,99€/mois)</option>
+                            <option value="pro">Pro Gamer (11,99€/mois)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="duration">Durée</label>
+                        <select id="duration" name="duration">
+                            <option value="monthly">Mensuel</option>
+                            <option value="annual">Annuel (-20%)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem; margin-top: 1rem;">
+                    <label for="cardNumber">Numéro de carte</label>
+                    <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+                </div>
+
+                <div class="form-row">
+                    <div>
+                        <label for="expiry">Date d'expiration</label>
+                        <input type="text" id="expiry" name="expiry" placeholder="MM/AA" required>
+                    </div>
+
+                    <div>
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" name="cvv" placeholder="123" required>
+                    </div>
+                </div>
+
+                <div style="margin: 1.5rem 0;">
+                    <label style="display: flex; align-items: center;">
+                        <input type="checkbox" required style="margin-right: 10px; width: auto;">
+                        J'accepte les <a href="#" style="color: var(--primary-color);">conditions générales d'utilisation</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-subscription">Confirmer l'abonnement</button>
+            </form>
         </div>
     </div>
 
@@ -646,6 +1069,9 @@
             if (e.key === 'Escape' && modal.style.display === 'block') {
                 closeModal.click();
             }
+            if (e.key === 'Escape' && subscriptionModal.style.display === 'flex') {
+                closeSubscriptionModal.click();
+            }
         });
 
         // Navigation douce pour les ancres
@@ -664,6 +1090,62 @@
             e.preventDefault();
             alert('Merci pour votre message !');
             this.reset();
+        });
+
+        // Gestion modal d'abonnement
+        const subscriptionModal = document.getElementById('subscriptionModal');
+        const closeSubscriptionModal = document.getElementById('closeSubscriptionModal');
+        const subscribeButtons = document.querySelectorAll('.subscribe-button');
+        const planSelect = document.getElementById('plan');
+
+        subscribeButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const plan = this.getAttribute('data-plan');
+
+                // Sélectionner le bon plan dans le formulaire
+                if (planSelect) {
+                    for (let i = 0; i < planSelect.options.length; i++) {
+                        if (planSelect.options[i].value === plan) {
+                            planSelect.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+
+                subscriptionModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        closeSubscriptionModal.addEventListener('click', function() {
+            subscriptionModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        // Gestion du formulaire d'abonnement
+        document.getElementById('subscriptionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Merci pour votre abonnement ! Vous allez recevoir un email de confirmation.');
+            this.reset();
+            subscriptionModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+
+            // On pourrait ajouter ici une fonction pour montrer les fonctionnalités premium
+            // Par exemple, débloquer des jeux supplémentaires
+        });
+
+        // Mise à jour du prix en fonction de la durée choisie
+        const durationSelect = document.getElementById('duration');
+        durationSelect.addEventListener('change', function() {
+            const plan = planSelect.value;
+            const duration = this.value;
+            let price = plan === 'premium' ? 5.99 : 11.99;
+
+            if (duration === 'annual') {
+                // Appliquer une réduction de 20% pour l'abonnement annuel
+                alert(`Vous économisez ${(price * 12 * 0.2).toFixed(2)}€ avec l'abonnement annuel !`);
+            }
         });
     </script>
 </body>
