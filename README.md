@@ -6,9 +6,9 @@
 
 > Les mini-jeux qui sauvent les devs du burn-out !
 
-GameBox propose plusieurs jeux intégrés via iframe (issus de CodePen), avec une interface moderne, un mode sombre, une navigation fluide, et même un système de suivi local des jeux joués.
+GameBox propose plusieurs jeux intégrés via iframe, avec une interface moderne, un mode sombre, une navigation fluide, et même un système de suivi local des jeux joués.
 
-🔗 **Démo en ligne :** [https://gamebox.onrender.com](https://gamebox-7z1a.onrender.com) *(ou lien GitHub Pages / Render réel)*
+🔗 **Démo en ligne :** [https://gamebox.onrender.com](https://gamebox-7z1a.onrender.com)
 
 ## 🕹️ Jeux intégrés
 
@@ -17,7 +17,7 @@ GameBox propose plusieurs jeux intégrés via iframe (issus de CodePen), avec un
 - 🔤 Jeu du Pendu
 - 🏗️ Unruly Tower
 - 🦵 Stick Hero
-- 🧟 Zombie Mayhem
+- 🧟 Zombie
 
 Chaque jeu est directement jouable depuis la page avec une fonctionnalité "plein écran" pour une immersion maximale.
 
@@ -33,8 +33,6 @@ Chaque jeu est directement jouable depuis la page avec une fonctionnalité "plei
 ## 📁 Structure
 📦 GameBox
 ├── index.html # Page principale
-├── style.css # (inline ou séparé)
-├── /assets/ # (images ou futurs fichiers)
 └── README.md
 
 
